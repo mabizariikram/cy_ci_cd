@@ -14,6 +14,7 @@ pipeline {
                 // Cloner le dépôt
                 sh 'git clone https://github.com/mabizariikram/cy_ci_cd.git repo'
 
+                // Entrer dans le dossier repo
                 dir('repo') {
                     // Installer les dépendances
                     sh 'npm install'
@@ -21,10 +22,6 @@ pipeline {
 
                     // Lancer le test Cypress spécifique
                     sh 'npx cypress run --spec="cypress/e2e/login.cy.js"'
-
-                    
-}
-
                 }
             }
         }
