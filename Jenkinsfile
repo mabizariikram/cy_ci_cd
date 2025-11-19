@@ -11,7 +11,7 @@ pipeline {
             steps {
                 sh 'git clone https://github.com/mabizariikram/cy_ci_cd.git repo'
                 dir('repo') {
-                    sh 'npm ci'
+                    sh 'npm install'
                     sh 'npx cypress run --spec="cypress/e2e/login.cy.js"'
                 }
             }
