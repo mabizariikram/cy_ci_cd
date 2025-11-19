@@ -12,6 +12,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^23.2.1",
+    "@cypress/grep": "^5.0.0",
     "@shelex/cypress-allure-plugin": "^2.41.2",
     "allure-commandline": "^2.34.1",
     "cypress-mochawesome-reporter": "^4.0.2"

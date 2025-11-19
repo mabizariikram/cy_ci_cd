@@ -17,9 +17,14 @@ pipeline {
                 dir('repo') {
                     // Installer les dépendances
                     sh 'npm install'
+                    sh 'npm install --save-dev @cypress/grep'
 
                     // Lancer le test Cypress spécifique
                     sh 'npx cypress run --spec="cypress/e2e/login.cy.js"'
+
+                    
+}
+
                 }
             }
         }
