@@ -2,16 +2,23 @@ pipeline {
     agent {
         docker {
             image 'cypress/included:latest'
-            //args '-u root'
             args '-u root --entrypoint=""'
         }
     }
     stages {
         stage('Checkout') {
             steps {
+                // Supprimer le dossier repo s'il existe déjà
+                sh 'rm -rf repo'
+
+                // Cloner le dépôt
                 sh 'git clone https://github.com/mabizariikram/cy_ci_cd.git repo'
+
                 dir('repo') {
+                    // Installer les dépendances
                     sh 'npm install'
+
+                    // Lancer le test Cypress spécifique
                     sh 'npx cypress run --spec="cypress/e2e/login.cy.js"'
                 }
             }
@@ -19,6 +26,7 @@ pipeline {
     }
     post {
         always {
+            // Archiver les résultats
             archiveArtifacts artifacts: 'repo/results/*.*', fingerprint: true
             junit 'repo/results/*.xml'
         }
