@@ -1,28 +1,25 @@
 pipeline {
-    agent any  // utilise l'agent Jenkins classique pour le checkout
+    agent {
+        docker {
+            image 'cypress/included:latest'
+            args '-u root'
+        }
+    }
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
-            }
-        }
-        stage('Run Cypress in Docker') {
-            agent {
-                docker {
-                    image 'cypress/included:latest'
-                    args '-u root --entrypoint='
+                sh 'git clone https://github.com/mabizariikram/cy_ci_cd.git repo'
+                dir('repo') {
+                    sh 'npm ci'
+                    sh 'npx cypress run --spec="cypress/e2e/login.cy.js"'
                 }
-            }
-            steps {
-                sh 'npm ci'
-                sh 'npx cypress run --spec="cypress/e2e/login.cy.js"'
             }
         }
     }
     post {
         always {
-            archiveArtifacts artifacts: 'results/*.*', fingerprint: true
-            junit 'results/*.xml'
+            archiveArtifacts artifacts: 'repo/results/*.*', fingerprint: true
+            junit 'repo/results/*.xml'
         }
     }
 }
