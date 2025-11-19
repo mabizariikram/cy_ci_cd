@@ -51,8 +51,13 @@ describe("fonctionalité d'authontification", ()=>{
         //cy.get("span.title").should("be.visible")//le titre va etre visible que du vrai je suis dans la page chercher 
        // cy.url().eq("https://www.saucedemo.com/inventory.html")// ca le lien de la page
        //cy.url().should("eq","https://www.saucedemo.com/inventory.html")
-       cy.url().should("include", "/inventory.html")
+       //cy.url().should("include", "/inventory.html")
 
+         // Vérifier que l’élément de la page inventaire est visible (plus stable)
+         cy.get(".inventory_list", { timeout: 15000 }).should("be.visible")
+
+        // Vérifier l’URL avec timeout
+          cy.url({ timeout: 15000 }).should("include", "/inventory.html")
     })
 
     it("login with invalid credentials",{tags: ['@regression','@smoke']}, ()=>{
