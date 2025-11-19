@@ -5,25 +5,25 @@ pipeline {
             args '-u=root --entrypoint='
         }
     }
-    stages{
-        stage('install cypress'){
-            steps{
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Install Cypress') {
+            steps {
                 sh 'npm ci'
             }
         }
-        stage('run tests'){
-            steps{
+        stage('Run Tests') {
+            steps {
                 sh 'npx cypress run --spec="cypress/e2e/login.cy.js"'
             }
         }
-        // stage('get junit report'){
-        //     steps{
-        //         junit 'results/*.xml'
-        //     }
-        // }
     }
-    post{
-        always{
+    post {
+        always {
             archiveArtifacts artifacts: 'results/*.*', fingerprint: true
             junit 'results/*.xml'
         }
